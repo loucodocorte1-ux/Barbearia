@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Louko do Corte | Barbearia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#0b0b0b;
+    color:#fff;
+}
+
+/* MENU */
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:#000;
+    border-bottom:1px solid #1f1f1f;
+    z-index:1000;
+}
+
+.nav-container{
+    max-width:1100px;
+    margin:auto;
+    padding:14px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    color:#b11212;
+    font-weight:700;
+    letter-spacing:2px;
+    font-size:16px;
+}
+
+.nav-links a{
+    color:#ccc;
+    margin-left:16px;
+    text-decoration:none;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.nav-links a:hover{color:#fff;}
+
+section{
+    padding:120px 18px 70px;
+    text-align:center;
+}
+
+.hidden{display:none;}
+
+h1{
+    color:#b11212;
+    font-size:28px;
+}
+
+/* HOME */
+#home img{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    border:4px solid #8b0000;
+    box-shadow:0 0 25px #8b000077;
+    margin-bottom:20px;
+    object-fit:cover;
+}
+
+.subtitle{
+    color:#aaa;
+    margin:10px 0 35px;
+    font-size:14px;
+}
+
+/* BOTÕES */
+.botoes{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.botao{
+    padding:14px 34px;
+    border-radius:40px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.botao-cortes{
+    background:linear-gradient(135deg,#8b0000,#c41616);
+}
+
+.botao-info{
+    background:linear-gradient(135deg,#005eff,#1e90ff);
+}
+
+.botao-whats{
+    background:linear-gradient(135deg,#1ebe5d,#25D366);
+    color:#000;
+}
+
+.botao:hover{transform:scale(1.05);}
+
+/* GALERIA */
+.grid{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:18px;
+}
+
+.corte{
+    overflow:hidden;
+    border-radius:16px;
+    cursor:pointer;
+}
+
+.corte img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    transition:.4s;
+}
+
+.corte:hover img{transform:scale(1.08);}
+
+/* LIGHTBOX */
+#lightbox{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.95);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:3000;
+}
+
+#lightbox img{
+    max-width:95%;
+    max-height:95%;
+    border-radius:16px;
+}
+
+/* INFO */
+.info-box{
+    max-width:620px;
+    margin:auto;
+    background:linear-gradient(180deg,#111,#0d0d0d);
+    padding:28px;
+    border-radius:22px;
+    box-shadow:0 0 40px #000;
+}
+
+.info-box h2{
+    color:#1e90ff;
+    margin:18px 0 12px;
+    font-size:20px;
+}
+
+.info-box p{
+    color:#ddd;
+    margin:8px 0;
+    display:flex;
+    justify-content:space-between;
+    font-size:15px;
+}
+
+/* VOLTAR */
+.voltar{
+    margin-top:35px;
+    padding:14px 38px;
+    background:#1a1a1a;
+    border-radius:40px;
+    display:inline-block;
+    cursor:pointer;
+}
+
+.voltar:hover{background:#333;}
+
+footer{
+    text-align:center;
+    padding:22px;
+    color:#666;
+    font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-container">
+    <div class="logo">LOUKO DO CORTE</div>
+    <div class="nav-links">
+        <a onclick="mostrarHome()">Início</a>
+        <a onclick="mostrarMenuCortes()">Cortes</a>
+        <a onclick="mostrarInfo()">Informações</a>
+        <a href="https://wa.me/558199513044?text=Ola%20gostaria%20de%20agendar%20um%20horario" target="_blank">WhatsApp</a>
+    </div>
+</div>
+</nav>
+
+<section id="home">
+<img src="logo.jpg">
+<h1>LOUKO DO CORTE</h1>
+<div class="subtitle">Estilo • Atitude • Precisão</div>
+
+<div class="botoes">
+<div class="botao botao-cortes" onclick="mostrarMenuCortes()">Ver Cortes</div>
+<div class="botao botao-info" onclick="mostrarInfo()">Informações</div>
+<div class="botao botao-info" onclick="abrirMapa()">Ver Localização</div>
+<div class="botao botao-whats" onclick="window.open('https://wa.me/558199513044?text=Ola%20gostaria%20de%20agendar%20um%20horario')">
+Agendar no WhatsApp
+</div>
+</div>
+</section>
+
+<section id="menuCortes" class="hidden">
+<h1>Escolha</h1>
+<div class="botoes">
+<div class="botao botao-cortes" onclick="mostrarCortes()">Fotos</div>
+<div class="botao botao-info" onclick="mostrarVideos()">Vídeos</div>
+</div>
+<div class="voltar" onclick="mostrarHome()">Voltar</div>
+</section>
+
+<section id="cortes" class="hidden">
+<h1>Nossos Trabalhos</h1>
+<div class="grid">
+<script>
+for(let i=1;i<=71;i++){
+document.write(`
+<div class="corte" onclick="abrirFoto('foto${i}.png')">
+<img src="foto${i}.png">
+</div>
+`);
+}
+</script>
+</div>
+<div class="voltar" onclick="mostrarMenuCortes()">Voltar</div>
+</section>
+
+<section id="videos" class="hidden">
+<h1>Vídeos</h1>
+<div class="grid">
+<video controls width="100%"><source src="video1.mp4"></video>
+<video controls width="100%"><source src="video2.mp4"></video>
+<video controls width="100%"><source src="video3.mp4"></video>
+<video controls width="100%"><source src="video4.mp4"></video>
+<video controls width="100%"><source src="video5.mp4"></video>
+</div>
+<div class="voltar" onclick="mostrarMenuCortes()">Voltar</div>
+</section>
+
+<section id="info" class="hidden">
+<h1>Informações</h1>
+
+<div class="info-box">
+<h2>Horário de Funcionamento</h2>
+<p><span>Segunda a Sábado</span><span>08:00 às 19:00</span></p>
+<p><span>Domingo</span><span>08:00 às 13:00</span></p>
+
+<h2>Serviços e Preços</h2>
+<p><span>Corte</span><span>R$ 25</span></p>
+<p><span>Luzes</span><span>R$ 45</span></p>
+<p><span>Pigmentação</span><span>R$ 20</span></p>
+<p><span>Nevou</span><span>R$ 50</span></p>
+<p><span>Realismo</span><span>R$ 30</span></p>
+<p><span>Desenho</span><span>R$ 10</span></p>
+<p><span>Sobrancelha</span><span>R$ 5</span></p>
+<p><span>Barba</span><span>R$ 10</span></p>
+<p><span>Botox Capilar</span><span>R$ 50</span></p>
+<p><span>Alisamento</span><span>R$ 50</span></p>
+</div>
+
+<div class="voltar" onclick="mostrarHome()">Voltar</div>
+</section>
+
+<div id="lightbox" onclick="fecharFoto()">
+<img id="lightbox-img">
+</div>
+
+<footer>
+2026 - Louko do Corte - Barbearia
+</footer>
+
+<script>
+const home=document.getElementById("home");
+const cortes=document.getElementById("cortes");
+const info=document.getElementById("info");
+const menuCortes=document.getElementById("menuCortes");
+const videos=document.getElementById("videos");
+
+function esconderTudo(){
+home.classList.add("hidden");
+cortes.classList.add("hidden");
+info.classList.add("hidden");
+menuCortes.classList.add("hidden");
+videos.classList.add("hidden");
+}
+
+function mostrarHome(){esconderTudo();home.classList.remove("hidden");}
+function mostrarMenuCortes(){esconderTudo();menuCortes.classList.remove("hidden");}
+function mostrarCortes(){esconderTudo();cortes.classList.remove("hidden");}
+function mostrarVideos(){esconderTudo();videos.classList.remove("hidden");}
+function mostrarInfo(){esconderTudo();info.classList.remove("hidden");}
+
+function abrirFoto(src){
+document.getElementById("lightbox-img").src = src;
+document.getElementById("lightbox").style.display = "flex";
+}
+
+function fecharFoto(){
+document.getElementById("lightbox").style.display = "none";
+}
+
+function abrirMapa(){
+window.open("https://maps.app.goo.gl/mzRba4xh92EtTxae6?g_st=ac");
+}
+</script>
+
+</body>
+</html>
