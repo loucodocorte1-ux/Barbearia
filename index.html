@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Louko do Corte | Barbearia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --red: #c41616;
+  --red-dark: #8b0000;
+  --red-glow: rgba(196,22,22,0.35);
+  --blue: #1e90ff;
+  --green: #25D366;
+  --bg: #080808;
+  --bg2: #0f0f0f;
+  --bg3: #141414;
+  --border: rgba(255,255,255,0.07);
+  --text: #f0f0f0;
+  --muted: #888;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.6;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 4px;
+  color: var(--red);
+  text-shadow: 0 0 20px var(--red-glow);
+}
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .25s;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+
+.nav-wa {
+  background: var(--green) !important;
+  color: #000 !important;
+  border-radius: 6px !important;
+}
+.nav-wa:hover { opacity: .85; }
+
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: .3s;
+}
+
+/* ── SECTIONS ── */
+section {
+  min-height: 100vh;
+  padding: 90px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden { display: none !important; }
+
+/* ── HOME ── */
+#home {
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* background radial glow */
+#home::after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(139,0,0,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.logo-wrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 28px;
+}
+
+.logo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: conic-gradient(var(--red), var(--red-dark), transparent, var(--red));
+  animation: spin 4s linear infinite;
+  opacity: .7;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.logo-wrap img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  border: 4px solid var(--bg);
+  display: block;
+}
+
+.home-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 9vw, 80px);
+  letter-spacing: 6px;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 0 40px var(--red-glow);
+  margin-bottom: 8px;
+  animation: fadeUp .7s ease both;
+}
+
+.home-sub {
+  font-size: 14px;
+  letter-spacing: 5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 48px;
+  animation: fadeUp .7s .15s ease both;
+}
+
+/* divider */
+.divider {
+  width: 60px;
+  height: 2px;
+  background: var(--red);
+  margin: 0 auto 48px;
+  animation: fadeUp .7s .2s ease both;
+}
+
+.cta-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+  animation: fadeUp .7s .3s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 17px 24px;
+  border-radius: 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: all .22s cubic-bezier(.34,1.56,.64,1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* shimmer sweep on hover */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.18), transparent);
+  transition: left .45s ease;
+}
+.btn:hover::after { left: 160%; }
+.btn:active { transform: scale(0.97) !important; }
+
+.btn-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.btn-red {
+  background: linear-gradient(135deg, #8b0000 0%, #c41616 50%, #8b0000 100%);
+  background-size: 200% auto;
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(255,80,80,0.25), 0 8px 28px rgba(196,22,22,0.5);
+  animation: gradShift 3s ease infinite;
+}
+.btn-red:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(255,80,80,0.4), 0 12px 40px rgba(196,22,22,0.7), 0 0 30px rgba(196,22,22,0.3);
+}
+
+@keyframes gradShift {
+  0%,100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+.btn-blue {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.13);
+  color: #ddd;
+}
+.btn-blue:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #aaa;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-green {
+  background: linear-gradient(135deg, #128C3E 0%, #25D366 50%, #128C3E 100%);
+  background-size: 200% auto;
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(37,211,102,0.25), 0 8px 28px rgba(37,211,102,0.35);
+  animation: gradShiftGreen 3s ease infinite;
+}
+.btn-green:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(37,211,102,0.4), 0 12px 40px rgba(37,211,102,0.55);
+}
+@keyframes gradShiftGreen {
+  0%,100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+/* WA span placeholder — kept for compat */
+.btn-green-old {
+  background: linear-gradient(160deg, #1a9e4f, #25D366, #128C3E);
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  border: 1px solid rgba(80,220,120,0.2);
+  font-size: 13px;
+  flex-direction: row;
+  padding: 18px 20px;
+}
+.btn-green:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 36px rgba(37,211,102,0.5); }
+.btn-green .btn-icon { font-size: 22px; }
+
+/* ── SECTION TITLES ── */
+.sec-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 7vw, 56px);
+  letter-spacing: 4px;
+  color: var(--red);
+  text-align: center;
+  margin-bottom: 8px;
+  text-shadow: 0 0 30px var(--red-glow);
+}
+
+.sec-sub {
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* ── MENU CORTES ── */
+#menuCortes {
+  gap: 32px;
+}
+
+.choice-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.choice-card {
+  width: 220px;
+  padding: 40px 20px;
+  border-radius: 16px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  text-align: center;
+  transition: all .3s;
+}
+
+.choice-card:hover {
+  border-color: var(--red);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(196,22,22,0.2);
+}
+
+.choice-icon {
+  font-size: 40px;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.choice-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+/* ── GALERIA ── */
+#cortes { justify-content: flex-start; }
+
+.gallery-grid {
+  max-width: 1200px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 0 auto 40px;
+}
+
+.corte-card {
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  aspect-ratio: 3/4;
+  background: var(--bg3);
+}
+
+.corte-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+  display: block;
+}
+
+.corte-card::after {
+  content: '🔍';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  opacity: 0;
+  transition: .3s;
+}
+
+.corte-card:hover img { transform: scale(1.1); }
+.corte-card:hover::after { opacity: 1; }
+
+/* ── LIGHTBOX ── */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.96);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+  animation: fadeIn .2s ease;
+}
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+#lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 12px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+}
+
+.lb-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 36px;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+  opacity: .7;
+  transition: opacity .2s;
+}
+.lb-close:hover { opacity: 1; }
+
+/* ── VIDEOS ── */
+.video-grid {
+  max-width: 1000px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.video-grid video {
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+  display: block;
+}
+
+/* ── INFO ── */
+#info { justify-content: flex-start; }
+
+.info-wrap {
+  max-width: 680px;
+  width: 100%;
+}
+
+.info-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.info-card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: var(--blue);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+  color: #ccc;
+}
+.hours-row:last-child { border-bottom: none; }
+.hours-row .day { color: var(--muted); }
+.hours-row .time { font-weight: 600; color: var(--green); }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.service-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: border-color .2s;
+}
+.service-item:hover { border-color: rgba(196,22,22,0.4); }
+
+.service-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ddd;
+}
+
+.service-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--red);
+}
+
+/* ── BACK BUTTON ── */
+.back-btn {
+  margin-top: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: all .2s;
+}
+.back-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 2px;
+  border-top: 1px solid var(--border);
+}
+
+footer span { color: var(--red); }
+
+/* ── MOBILE ── */
+@media (max-width: 680px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; left: 0; width: 100%; background: rgba(8,8,8,0.98); padding: 16px; border-bottom: 1px solid var(--border); gap: 4px; }
+  .nav-links.open { display: flex; }
+  .nav-links a { width: 100%; text-align: center; padding: 10px; }
+  .hamburger { display: flex; }
+
+  .services-grid { grid-template-columns: 1fr; }
+
+  .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+
+  .choice-card { width: 150px; padding: 28px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Louko do Corte</div>
+    <div class="nav-links" id="navLinks">
+      <a onclick="mostrarHome();fecharMenu()">Início</a>
+      <a onclick="mostrarMenuCortes();fecharMenu()">Cortes</a>
+      <a onclick="mostrarInfo();fecharMenu()">Informações</a>
+      <a class="nav-wa" href="https://wa.me/558199513044?text=Ola%20gostaria%20de%20agendar%20um%20horario" target="_blank">WhatsApp</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <div class="logo-wrap">
+    <img src="logo.jpg" alt="Louko do Corte">
+  </div>
+  <h1 class="home-title">Louko do Corte</h1>
+  <p class="home-sub">Estilo &bull; Atitude &bull; Precisão</p>
+  <div class="divider"></div>
+  <div class="cta-grid">
+    <div class="btn btn-red" onclick="mostrarMenuCortes()">
+      <span class="btn-icon">✂️</span>
+      Ver Cortes
+    </div>
+    <div class="btn btn-blue" onclick="mostrarInfo()">
+      <span class="btn-icon">📋</span>
+      Informações
+    </div>
+    <div class="btn btn-ghost" onclick="abrirMapa()">
+      <span class="btn-icon">📍</span>
+      Ver Localização
+    </div>
+    <a class="btn btn-green" href="https://wa.me/558199513044?text=Ola%20gostaria%20de%20agendar%20um%20horario" target="_blank">
+      <span class="btn-icon">💬</span>
+      Agendar pelo WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- MENU CORTES -->
+<section id="menuCortes" class="hidden">
+  <h2 class="sec-title">Nossos Trabalhos</h2>
+  <p class="sec-sub">Escolha o formato</p>
+  <div class="choice-cards">
+    <div class="choice-card" onclick="mostrarCortes()">
+      <span class="choice-icon">📸</span>
+      <h3>Fotos</h3>
+    </div>
+    <div class="choice-card" onclick="mostrarVideos()">
+      <span class="choice-icon">🎬</span>
+      <h3>Vídeos</h3>
+    </div>
+  </div>
+  <div class="back-btn" onclick="mostrarHome()">← Voltar</div>
+</section>
+
+<!-- GALERIA -->
+<section id="cortes" class="hidden">
+  <h2 class="sec-title">Nossos Cortes</h2>
+  <p class="sec-sub">Clique para ampliar</p>
+  <div class="gallery-grid" id="galleryGrid"></div>
+  <div class="back-btn" onclick="mostrarMenuCortes()">← Voltar</div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos" class="hidden">
+  <h2 class="sec-title">Vídeos</h2>
+  <p class="sec-sub">Veja nossos trabalhos em movimento</p>
+  <div class="video-grid">
+    <video controls preload="none"><source src="video1.mp4" type="video/mp4"></video>
+    <video controls preload="none"><source src="video2.mp4" type="video/mp4"></video>
+    <video controls preload="none"><source src="video3.mp4" type="video/mp4"></video>
+    <video controls preload="none"><source src="video4.mp4" type="video/mp4"></video>
+    <video controls preload="none"><source src="video5.mp4" type="video/mp4"></video>
+  </div>
+  <div class="back-btn" onclick="mostrarMenuCortes()">← Voltar</div>
+</section>
+
+<!-- INFO -->
+<section id="info" class="hidden">
+  <h2 class="sec-title">Informações</h2>
+  <p class="sec-sub">Tudo que você precisa saber</p>
+  <div class="info-wrap">
+
+    <div class="info-card">
+      <div class="info-card-title">🕐 Horário de Funcionamento</div>
+      <div class="hours-row">
+        <span class="day">Segunda a Sábado</span>
+        <span class="time">08:00 – 19:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="day">Domingo</span>
+        <span class="time">08:00 – 13:00</span>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-title">💈 Serviços & Preços</div>
+      <div class="services-grid">
+        <div class="service-item"><span class="service-name">Corte</span><span class="service-price">R$25</span></div>
+        <div class="service-item"><span class="service-name">Luzes</span><span class="service-price">R$45</span></div>
+        <div class="service-item"><span class="service-name">Pigmentação</span><span class="service-price">R$20</span></div>
+        <div class="service-item"><span class="service-name">Nevou</span><span class="service-price">R$50</span></div>
+        <div class="service-item"><span class="service-name">Realismo</span><span class="service-price">R$30</span></div>
+        <div class="service-item"><span class="service-name">Desenho</span><span class="service-price">R$10</span></div>
+        <div class="service-item"><span class="service-name">Sobrancelha</span><span class="service-price">R$5</span></div>
+        <div class="service-item"><span class="service-name">Barba</span><span class="service-price">R$10</span></div>
+        <div class="service-item"><span class="service-name">Botox Capilar</span><span class="service-price">R$50</span></div>
+        <div class="service-item"><span class="service-name">Alisamento</span><span class="service-price">R$50</span></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a class="btn btn-green" href="https://wa.me/558199513044?text=Ola%20gostaria%20de%20agendar%20um%20horario" target="_blank" style="flex:1;justify-content:center;">💬 Agendar no WhatsApp</a>
+      <div class="btn btn-ghost" onclick="abrirMapa()" style="flex:1;justify-content:center;">📍 Ver no Mapa</div>
+    </div>
+
+  </div>
+  <div class="back-btn" onclick="mostrarHome()">← Voltar</div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="fecharFoto()">
+  <span class="lb-close" onclick="fecharFoto()">×</span>
+  <img id="lightbox-img" alt="Corte ampliado">
+</div>
+
+<footer>
+  © 2026 — <span>Louko do Corte</span> — Barbearia
+</footer>
+
+<script>
+/* ── GALERIA: gerar cards ── */
+const grid = document.getElementById('galleryGrid');
+for(let i = 1; i <= 71; i++){
+  const card = document.createElement('div');
+  card.className = 'corte-card';
+  card.innerHTML = `<img src="foto${i}.png" alt="Corte ${i}" loading="lazy">`;
+  card.onclick = () => abrirFoto(`foto${i}.png`);
+  grid.appendChild(card);
+}
+
+/* ── NAVEGAÇÃO ── */
+const sections = ['home','menuCortes','cortes','videos','info'];
+
+function mostrarSec(id){
+  sections.forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== id);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+const mostrarHome       = () => mostrarSec('home');
+const mostrarMenuCortes = () => mostrarSec('menuCortes');
+const mostrarCortes     = () => mostrarSec('cortes');
+const mostrarVideos     = () => mostrarSec('videos');
+const mostrarInfo       = () => mostrarSec('info');
+
+/* ── LIGHTBOX ── */
+function abrirFoto(src){
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function fecharFoto(){
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+/* Fechar lightbox com ESC */
+document.addEventListener('keydown', e => { if(e.key === 'Escape') fecharFoto(); });
+
+/* ── MAPA ── */
+function abrirMapa(){
+  window.open('https://maps.app.goo.gl/mzRba4xh92EtTxae6?g_st=ac', '_blank');
+}
+
+/* ── MENU MOBILE ── */
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+function fecharMenu(){
+  document.getElementById('navLinks').classList.remove('open');
+}
+</script>
+</body>
+</html>
